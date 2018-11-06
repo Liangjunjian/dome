@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>banner2</title>
+	<link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+<body>
+<div class="_all">
+	<div class="banner_all">
+		<div class="banner_img_all">
+			<div class="banner_img">
+				<img src="./images/3.jpg" >
+			</div>
+			<div class="banner_img">
+				<img src="./images/4.jpg" >
+			</div>
+			<div class="banner_img">
+				<img src="./images/5.jpg" >
+			</div>
+			<div class="banner_img">
+				<img src="./images/3.jpg" >
+			</div>
+		</div>
+		<div class="banner_pre_next"></div>
+		<div class="banner_icon">
+			<span class="icon"></span>
+			<span></span>
+			<span></span>
+			
+		</div>
+	</div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+<script type="text/javascript" src="./js/index.js"></script>
+</body>
+</html>
+
+/ *css*/
+*{
+	padding: 0;
+	margin: 0;
+}
+._all{
+	width: 800px;
+	margin: 80px auto;
+	overflow: hidden;
+	position: relative;
+}
+.banner_all{
+	
+	float: left;
+}
+.banner_img_all{
+	width: 99999px;
+	float: left;
+	height: 390px;
+	position: relative;
+}
+.banner_img{
+	width: 800px;
+	float: left;
+}
+.banner_img img{width: 100%; float: left; height: 390px;}
+.banner_icon{
+	width: 60px;
+	height: 10px;
+	margin-bottom: 10px;	
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	margin-left: -30px;
+}
+.banner_icon span{
+	width: 10px; 
+	height: 10px;
+	border-radius: 50%;
+	background: #ccc;
+	display: block;
+	float: left;
+	margin-left: 5px;
+}
+.banner_icon .icon{background: #fff;}
+
+/*js*/
+window.onload = function(){
+	var _all = $('._all'),
+	 	banner_img_all = $('.banner_img_all'),
+	 	len = $('.banner_img').length,
+	 	banner_icon = $('.banner_icon span'),
+	 	_width = $('.banner_img img').eq(0).width(),
+	 	_left,
+	 	timer=null,
+	 	i=0;
+	 	//console.log(len);
+	 	//鼠标点击切换
+	 	banner_icon.on('click',function(){
+	 		i = banner_icon.index($(this))
+	 		//console.log(i)
+	 		/* _left = -_width *i;
+	 		 banner_img_all.css({
+	 		 	'left':_left
+	 		 })*/
+	 		 sport(i);
+	 	})
+	 	//圆点切换
+	 	function sport(num){
+	 		banner_icon.eq(num).addClass('icon').siblings().removeClass('icon');
+	 		if (num===3) {
+	 			banner_icon.eq(0).addClass('icon').siblings().removeClass('icon');
+	 		}
+	 	//banner切换时间
+	 	banner_img_all.stop().animate({
+	 			left:  -num * _width,
+
+	 		},500,function(){
+	 			if (num == len-1) {
+	 				$('.banner_img_all').css('left','0px');
+	 			}
+
+	 		})
+	 	
+	 	}
+	 	//鼠标在banner上停止
+	 	_all.on('mouseenter',function(){
+	 		clearInterval(timer);
+	 	})
+//鼠标离开banner继续
+	 	_all.on('mouseleave',function(){
+	 		go();
+	 	})
+//自动滚动
+	 	function go(){
+		 	timer = setInterval(function(){
+		 			i++;
+		 			
+		 			if (i>len-1) {
+		 				i=0;
+		 			}
+		 			
+		 			sport(i);
+
+		 		},3000)
+
+	 	}
+	 	go();
+	 
+}
